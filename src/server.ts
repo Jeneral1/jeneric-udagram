@@ -34,16 +34,16 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
 
     let { image_url } = req.query; 
 
-    if ( !image_url ) {
+    if ( !image_url ) {  // Validating the image url query
       return res.status(400)
                 .send(`image url is required`);
     }
-    const filteredPath : string = await filterImageFromURL(image_url);
+    const filteredPath : string = await filterImageFromURL(image_url); // applying the filter function to the image url
     
-    res.on("finish", ()=>{
+    res.on("finish", ()=>{  // Deleting the image created on finish of the response
       deleteLocalFiles([filteredPath]);
     })
-    return res.status(200).sendFile(filteredPath);
+    return res.status(200).sendFile(filteredPath);  // returning the file in the response with status code 200
 
   } );
   
